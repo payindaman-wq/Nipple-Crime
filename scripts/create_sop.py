@@ -177,6 +177,7 @@ def create_sop(
 
 # =========================================================
 # SOP Tr3 — Statement of Intent (BMorg)
+# NOTE: Tr3 master template was manually finalized. Do not regenerate.
 # =========================================================
 
 sections_tr3 = [
@@ -283,14 +284,99 @@ sections_tr3 = [
     ]),
 ]
 
+# create_sop(  # Tr3 is locked as master template — do not regenerate
+#     output_path="Standard Operating Procedures/Tr3 Statement of Intent.docx",
+#     ...
+# )
+
+# =========================================================
+# SOP Tr4 — Mutant Vehicle Statement of Intent (BMorg)
+# =========================================================
+
+sections_tr4 = [
+    (1, "1. Purpose", [
+        "This SOP documents the annual process for completing and submitting Nipple Crime's "
+        "Mutant Vehicle Statement of Intent (MVSOI) to the Burning Man Organization (BMorg). "
+        "The MVSOI is required for all mutant vehicles seeking to operate on the playa and to "
+        "be considered for the Stewards Ticket Sale allocation. Primary vehicle: SirKiss.",
+    ]),
+    (1, "2. Timeline", [
+        "- MVSOI portal opens: December – January (check burningman.org each year)",
+        "- Submission deadline: February – March (verify annually)",
+        "- Stewards Sale ticket allocations announced: second week of February",
+        "- On-playa DMV licensing: upon arrival at Burning Man each year",
+        "- Set calendar reminders at each milestone",
+    ]),
+    (1, "3. Submission Steps", [
+        "1. Go to burningman.org > Participate > Mutant Vehicles > Statement of Intent",
+        "2. Log in using the Nipple Crime account (credentials held by President and Treasurer)",
+        "3. Select 'Previously Applied — We've applied to bring this vehicle before'",
+        "4. Complete all required fields — see Section 4 for 2026 reference answers",
+        "5. Review entries before submitting",
+        "6. Submit form",
+        "7. Save / screenshot the BMorg confirmation email for records (see Section 5)",
+    ]),
+    (1, "4. 2026 Submission Reference", [
+        "The following answers were submitted for the 2026 Burn cycle. Update each year as needed.",
+        "",
+        "CONTACT",
+        "- First Name: Reece",
+        "- Last Name: Dassinger",
+        "- Email: Leadership@nipplecrime.org",
+        "",
+        "VEHICLE",
+        "- Primary Mutant Vehicle Name: SirKiss",
+        "- Most Recent Placed Camp Name: Nipple Crime",
+        "- Vehicle Status: Previously Applied — We've applied to bring this vehicle before",
+        "- Most Recent Year Licensed at On-Playa DMV: 2025",
+        "",
+        "INTERACTIVITY",
+        "- Participatory Aspects: Offering Rides, Music/Sound System, DJ Platform",
+        "- Description: We have a sound tech, DJ lineups, crowd management, walkers, and we allow "
+        "anyone on the art car at all times. We are handicap accessible. We have been in the zip line.",
+        "",
+        "STATUS FOR 2026",
+        "- Active / Requesting Access: We plan to bring our Mutant Vehicle in 2026 and would like "
+        "to be considered for the Stewards Ticket Sale this year.",
+        "",
+        "MULTIPLE VEHICLES",
+        "- Registering more than one MV: No",
+        "",
+        "TICKET INFORMATION",
+        "- Total crew and passenger capacity of all MVs: 60",
+        "- Tickets requested for MV Crew and Support Team: 18",
+        "  (Note: tickets sold in pairs; MV crew only — theme camp support tickets requested separately through Placement)",
+        "",
+        "CAMPING PLANS",
+        "- Part of Another Placed Camp: Team members camping with Nipple Crime (placed theme camp "
+        "submitting its own placement request)",
+    ]),
+    (1, "5. Record Keeping", [
+        "- Save BMorg confirmation email as PDF",
+        "- File location: [Shared Drive > Treasurer > BMorg > MVSOI > YYYY]",
+        "- Log: submission date, submitted by, BMorg correspondence, ticket allocation result",
+        "- Retain records for minimum 5 years per nonprofit compliance requirements",
+    ]),
+    (1, "6. Contacts", [
+        "- BMorg Mutant Vehicle Team: burningman.org (contact via MV portal)",
+        "- President / Primary Submitter: Reece Dassinger — reece@nipplecrime.org",
+        "- Art Car Supervisor (SirKiss): Anthony Tolosano",
+        "- Treasurer: Isabel Hoy — izhoy@yahoo.com",
+        "- VP / SOP Owner: Chris Reddin — creddin1@hotmail.com",
+    ]),
+    (1, "7. Revision History", [
+        "- v1.0 | 2026-03-03 | Initial draft | Chris Reddin",
+    ]),
+]
+
 create_sop(
-    output_path="Standard Operating Procedures/Tr3 Statement of Intent.docx",
-    sop_number="Tr3",
-    sop_title="Statement of Intent (BMorg)",
+    output_path="Standard Operating Procedures/Tr4 Mutant Vehicle Statement of Intent.docx",
+    sop_number="Tr4",
+    sop_title="Mutant Vehicle Statement of Intent (BMorg)",
     department="Treasurer",
     version="1.0",
     effective_date="2026-03-03",
     last_updated="2026-03-03",
-    sections=sections_tr3,
+    sections=sections_tr4,
     nc_logo_path="Images/NC logo.png",
 )
