@@ -12,19 +12,18 @@ from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 import os
 
+
 def set_cell_border(cell, **kwargs):
-    """Set border on a table cell."""
     tc = cell._tc
     tcPr = tc.get_or_add_tcPr()
     tcBorders = OxmlElement('w:tcBorders')
     for edge in ('top', 'left', 'bottom', 'right'):
-        tag = f'w:{edge}'
-        element = OxmlElement(tag)
-        attrs = kwargs.get(edge, {})
-        for key, val in attrs.items():
+        element = OxmlElement(f'w:{edge}')
+        for key, val in kwargs.get(edge, {}).items():
             element.set(qn(f'w:{key}'), str(val))
         tcBorders.append(element)
     tcPr.append(tcBorders)
+
 
 def set_cell_bg(cell, hex_color):
     tc = cell._tc
@@ -35,7 +34,8 @@ def set_cell_bg(cell, hex_color):
     shd.set(qn('w:fill'), hex_color)
     tcPr.append(shd)
 
-def add_run_with_color(para, text, bold=False, size=None, color=None, italic=False):
+
+def add_run(para, text, bold=False, size=None, color=None, italic=False):
     run = para.add_run(text)
     run.bold = bold
     run.italic = italic
@@ -45,37 +45,35 @@ def add_run_with_color(para, text, bold=False, size=None, color=None, italic=Fal
         run.font.color.rgb = RGBColor(*color)
     return run
 
+
 def create_sop(
     output_path,
     sop_number,
     sop_title,
-    division,
     department,
-    owner,
     version,
     effective_date,
     last_updated,
-    sections,  # list of (heading_level, heading_text, body_lines)
-    nc_logo_path="Images/Nipple Crime Flag.png",
-    bm_logo_path=None,  # set after user adds BM logo
+    sections,           # list of (heading_level, heading_text, body_lines)
+    nc_logo_path="Images/NC logo.png",
+    bm_logo_path="Images/BM logo.jpg",
 ):
     doc = Document()
 
     # --- Page margins ---
-    section = doc.sections[0]
-    section.top_margin = Inches(0.5)
-    section.bottom_margin = Inches(0.75)
-    section.left_margin = Inches(1)
-    section.right_margin = Inches(1)
+    page_section = doc.sections[0]
+    page_section.top_margin = Inches(0.5)
+    page_section.bottom_margin = Inches(0.75)
+    page_section.left_margin = Inches(1)
+    page_section.right_margin = Inches(1)
 
     # =========================================================
-    # HEADER: dual logo row
+    # HEADER: 2-column logo row (NC left | BM right)
     # =========================================================
-    logo_table = doc.add_table(rows=1, cols=3)
+    logo_table = doc.add_table(rows=1, cols=2)
     logo_table.alignment = WD_TABLE_ALIGNMENT.CENTER
-    logo_table.columns[0].width = Inches(1.8)
-    logo_table.columns[1].width = Inches(3.0)
-    logo_table.columns[2].width = Inches(1.8)
+    logo_table.columns[0].width = Inches(3.25)
+    logo_table.columns[1].width = Inches(3.25)
 
     # Left cell — NC logo
     left_cell = logo_table.cell(0, 0)
@@ -83,26 +81,19 @@ def create_sop(
     lp = left_cell.paragraphs[0]
     lp.alignment = WD_ALIGN_PARAGRAPH.LEFT
     if nc_logo_path and os.path.exists(nc_logo_path):
-        lp.add_run().add_picture(nc_logo_path, height=Inches(0.9))
+        lp.add_run().add_picture(nc_logo_path, height=Inches(1.0))
     else:
-        lp.add_run("[NC Logo]").bold = True
-
-    # Center cell — camp name
-    mid_cell = logo_table.cell(0, 1)
-    mid_cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
-    mp = mid_cell.paragraphs[0]
-    mp.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    add_run_with_color(mp, "Nipple Crime\nTheme Camp", bold=True, size=14)
+        add_run(lp, "NIPPLE CRIME", bold=True, size=14)
 
     # Right cell — BM logo
-    right_cell = logo_table.cell(0, 2)
+    right_cell = logo_table.cell(0, 1)
     right_cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
     rp = right_cell.paragraphs[0]
     rp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     if bm_logo_path and os.path.exists(bm_logo_path):
-        rp.add_run().add_picture(bm_logo_path, height=Inches(0.9))
+        rp.add_run().add_picture(bm_logo_path, height=Inches(1.0))
     else:
-        rp.add_run("[Burning Man Logo]").bold = True
+        add_run(rp, "[Burning Man Logo]", bold=True, size=14)
 
     # Remove table borders
     for row in logo_table.rows:
@@ -114,7 +105,7 @@ def create_sop(
     doc.add_paragraph()  # spacer
 
     # =========================================================
-    # DIVIDER LINE (thin black rule)
+    # DIVIDER LINE
     # =========================================================
     div = doc.add_paragraph()
     pPr = div._p.get_or_add_pPr()
@@ -128,74 +119,50 @@ def create_sop(
     pPr.append(pBdr)
 
     # =========================================================
-    # SOP TITLE
+    # TITLE BLOCK
     # =========================================================
+    label_para = doc.add_paragraph()
+    label_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    add_run(label_para, "STANDARD OPERATING PROCEDURE", bold=True, size=11)
+
     title_para = doc.add_paragraph()
     title_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    add_run_with_color(title_para, "STANDARD OPERATING PROCEDURE", bold=True, size=13)
-
-    subtitle_para = doc.add_paragraph()
-    subtitle_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    add_run_with_color(subtitle_para, f"{sop_number}  |  {sop_title}", bold=True, size=15)
+    add_run(title_para, sop_title, bold=True, size=15)
 
     doc.add_paragraph()
 
     # =========================================================
     # METADATA TABLE
+    # Fields: SOP Number | Department | Version | Effective Date
+    # Last Updated spans full width
     # =========================================================
-    meta = doc.add_table(rows=3, cols=4)
-    meta.style = 'Table Grid'
-    meta.alignment = WD_TABLE_ALIGNMENT.CENTER
-
-    fields = [
-        ("SOP Number", sop_number),    ("Division", division),
-        ("Department", department),    ("Owner", owner),
-        ("Version", version),          ("Effective Date", effective_date),
-        ("Last Updated", last_updated),("", ""),
-    ]
-
-    for i, (label, value) in enumerate(fields):
-        row_idx = i // 4
-        col_idx = (i % 4)
-        if row_idx < len(meta.rows) and col_idx < len(meta.columns):
-            # Each label+value pair spans across 2 logical cols but we have 4 cols total
-            # Layout: [Label | Value | Label | Value] per row
-            pass
-
-    # Rebuild as 3-row x 4-col: col0=label, col1=value, col2=label, col3=value
-    meta_data = [
-        [("SOP Number", sop_number), ("Division", division)],
-        [("Department", department), ("Owner", owner)],
-        [("Version", version), ("Effective Date", effective_date)],
-    ]
-
-    meta_table = doc.add_table(rows=3, cols=4)
+    meta_table = doc.add_table(rows=2, cols=4)
     meta_table.style = 'Table Grid'
 
-    label_color = "2C2C2C"
-    for r, row_data in enumerate(meta_data):
+    meta_rows = [
+        [("SOP Number", sop_number), ("Department", department)],
+        [("Version", version),       ("Effective Date", effective_date)],
+    ]
+
+    for r, row_data in enumerate(meta_rows):
         row = meta_table.rows[r]
-        row.height = Inches(0.25)
         for c, (lbl, val) in enumerate(row_data):
             label_cell = row.cells[c * 2]
             value_cell = row.cells[c * 2 + 1]
             set_cell_bg(label_cell, "D9D9D9")
             lp = label_cell.paragraphs[0]
             lp.alignment = WD_ALIGN_PARAGRAPH.CENTER
-            add_run_with_color(lp, lbl, bold=True, size=9)
+            add_run(lp, lbl, bold=True, size=9)
             vp = value_cell.paragraphs[0]
-            add_run_with_color(vp, val, size=9)
+            add_run(vp, val, size=9)
 
-    # Last updated row spans full width
+    # Last updated — full-width merged row
     lu_row = meta_table.add_row()
     merged = lu_row.cells[0].merge(lu_row.cells[1]).merge(lu_row.cells[2]).merge(lu_row.cells[3])
     set_cell_bg(merged, "D9D9D9")
     lup = merged.paragraphs[0]
     lup.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    add_run_with_color(lup, f"Last Updated: {last_updated}", bold=True, size=9)
-
-    # Remove the first empty meta table (leftover from the test block)
-    meta._element.getparent().remove(meta._element)
+    add_run(lup, f"Last Updated: {last_updated}", bold=True, size=9)
 
     doc.add_paragraph()
 
@@ -203,39 +170,32 @@ def create_sop(
     # BODY SECTIONS
     # =========================================================
     for (level, heading, lines) in sections:
-        if level == 1:
-            h = doc.add_heading(heading, level=1)
-            h.runs[0].font.size = Pt(13)
-            h.runs[0].font.color.rgb = RGBColor(0, 0, 0)
-        elif level == 2:
-            h = doc.add_heading(heading, level=2)
-            h.runs[0].font.size = Pt(11)
-            h.runs[0].font.color.rgb = RGBColor(0, 0, 0)
-        elif level == 3:
-            h = doc.add_heading(heading, level=3)
-            h.runs[0].font.size = Pt(10)
-            h.runs[0].font.color.rgb = RGBColor(0, 0, 0)
+        h = doc.add_heading(heading, level=level)
+        h.runs[0].font.size = Pt({1: 13, 2: 11, 3: 10}.get(level, 10))
+        h.runs[0].font.color.rgb = RGBColor(0, 0, 0)
 
         for line in lines:
             if line.startswith("- "):
                 p = doc.add_paragraph(line[2:], style='List Bullet')
-                p.runs[0].font.size = Pt(10)
-            elif line[:2] in [f"{i}." for i in range(1, 20)]:
+            elif len(line) > 2 and line[0].isdigit() and line[1] in '.':
                 p = doc.add_paragraph(line[line.index(".")+1:].strip(), style='List Number')
-                p.runs[0].font.size = Pt(10)
+            elif len(line) > 3 and line[:2].isdigit() and line[2] == '.':
+                p = doc.add_paragraph(line[line.index(".")+1:].strip(), style='List Number')
             elif line == "":
-                doc.add_paragraph()
+                p = doc.add_paragraph()
+                continue
             else:
                 p = doc.add_paragraph(line)
-                p.runs[0].font.size = Pt(10) if p.runs else None
+            if p.runs:
+                p.runs[0].font.size = Pt(10)
 
     # =========================================================
     # FOOTER
     # =========================================================
-    footer = section.footer
+    footer = page_section.footer
     fp = footer.paragraphs[0]
     fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    add_run_with_color(fp,
+    add_run(fp,
         f"Nipple Crime Theme Camp  |  {sop_number} {sop_title}  |  Ver {version}  |  Confidential — Internal Use Only",
         size=8, color=(128, 128, 128))
 
@@ -248,35 +208,6 @@ def create_sop(
 # SOP Tr3 — Statement of Intent (BMorg)
 # =========================================================
 
-sections_tr3 = [
-    (1, "1. Purpose", [
-        "This SOP documents the annual process for completing and submitting Nipple Crime's "
-        "Statement of Intent (SOI) to the Burning Man Organization (BMorg). The SOI is the "
-        "formal application required for theme camp registration and playa placement. "
-        "Submission is managed by the Treasurer in coordination with the President and VP.",
-    ]),
-    (1, "2. Timeline", [
-        "- SOI portal typically opens: December – January",
-        "- Submission deadline: Typically February – March (verify on burningman.org annually)",
-        "- Placement decisions announced: April – May",
-        "- Action: Treasurer sets calendar reminders at portal open and 2 weeks before deadline",
-    ]),
-    (1, "3. Roles & Responsibilities", [
-        "- Treasurer (Isabel Hoy): Owns submission, coordinates information gathering, maintains records",
-        "- President (Reece Dassinger): Reviews and approves SOI before submission",
-        "- VP (Chris Reddin): Provides camp overview and strategic direction",
-        "- Infrastructure Director (Cameron Meals): Provides power, vehicle, and infrastructure data",
-        "- Committees Director (Harman Gilbert): Provides list of interactive activities and public offerings",
-        "- HR Officer (Kayla McMain): Provides participant count and demographics",
-    ]),
-    (1, "4. Information to Gather", [
-        "Before opening the SOI portal, collect the following from each responsible party:",
-        "",
-        (2, "4.1 Camp Identity", []),
-    ]),
-]
-
-# Restructure sections for cleaner nesting support
 sections_tr3 = [
     (1, "1. Purpose", [
         "This SOP documents the annual process for completing and submitting Nipple Crime's "
@@ -372,13 +303,11 @@ create_sop(
     output_path="Standard Operating Procedures/Tr3 Statement of Intent.docx",
     sop_number="Tr3",
     sop_title="Statement of Intent (BMorg)",
-    division="Board",
     department="Treasurer",
-    owner="Isabel Hoy",
     version="1.0",
     effective_date="2026-03-03",
     last_updated="2026-03-03",
     sections=sections_tr3,
-    nc_logo_path="Images/Nipple Crime Flag.png",
-    bm_logo_path=None,
+    nc_logo_path="Images/NC logo.png",
+    bm_logo_path="Images/BM logo.jpg",
 )
