@@ -1,0 +1,291 @@
+[Heading 1] Communications Officer SOP Pack (NC)
+[Heading 2] What this role owns
+[normal] Primary responsibilities
+[normal] Central communications platform (Slack)
+[normal] Meeting recaps (board-facing, action-item oriented)
+[normal] Surveys / forms (collect attendance + labor + leadership interest, etc.)
+[normal] Outbound comms
+[normal] SMS via Sakari
+[normal] Email via HubSpot (“Nipple News” + key announcements)
+[normal] NC website upkeep (HubSpot CMS pages, links, basic updates)
+[normal] Close partner roles
+[normal] President: approves big messaging + final decisions
+[normal] Treasurer: dues language, payment links, donation/payment policy
+[normal] Secretary/HR: onboarding / comms to virgins (if Kayla is moving into that)
+[Heading 1] 0) Tools & access checklist (do this first)
+[Heading 2] 0.1 HubSpot permissions (the “don’t get stuck” check)
+[normal] If you can’t create/edit properties, lists, or forms, check permissions before troubleshooting anything else.
+[normal] Minimum recommended access
+[normal] Super Admin (or equivalent permissions to manage properties + marketing tools)
+[normal] Access to:
+[normal] CRM (contacts)
+[normal] Marketing > Forms
+[normal] Marketing > Email
+[normal] Content / Website Pages (if you’re maintaining the site)
+[normal] Commerce (optional; usually Treasurer-owned)
+[normal] HubSpot has a full permissions system under Settings → Users & Teams. (HubSpot Knowledge Base)
+[normal] Property-level access can also be restricted (so even if you “can edit contacts,” you may not be able to edit certain fields). (HubSpot Knowledge Base)
+[Heading 2] 0.2 Sakari integration + basics
+[normal] Confirm Sakari is connected to HubSpot (integration setup). When connected, contacts can sync and Sakari features appear in HubSpot records. (Sakari Support Center)
+[normal] Know that Sakari pricing is driven by SMS “segments” (longer texts / certain characters cost more). (Sakari Support Center)
+[Heading 2] 0.3 Compliance sanity check (keep it simple, but do it)
+[normal] Sakari opt-out is carrier keyword–driven (e.g., STOP). You should assume members can text STOP to opt out. (Sakari Support Center)
+[normal] Best practice: include “Reply STOP to opt out” periodically (especially on first outreach of the year).
+[normal] For marketing email, HubSpot requires unsubscribe/physical address elements through its footer system. (HubSpot Knowledge Base)
+[normal] (You don’t need to turn this into a legal thesis—just don’t fight the built-in rules.)
+[Heading 1] 1) HubSpot data model (how to think about it)
+[Heading 2] 1.1 Contacts are organized around the contact record
+[normal] Every person is a contact record
+[normal] You’ll use contact properties to store structured answers (e.g., “Interested in camp 2026?”, “Volunteer hours”, “Leadership interest”, “Leadership role”). (HubSpot Knowledge Base)
+[normal] You’ll use forms to collect/update those properties at scale. (HubSpot Knowledge Base)
+[normal] You’ll use lists/segments (active or static) to target the right people. (HubSpot Knowledge Base)
+[Heading 1] 2) Naming conventions (so future you doesn’t hate past you)
+[Heading 2] 2.1 Property naming
+[normal] Use a predictable prefix so properties group well:
+[normal] 2026 - Interested in Camp
+[normal] 2026 - Volunteer Time Available
+[normal] 2026 - Leadership Interest
+[normal] 2026 - Leadership Role (Assigned)
+[normal] HubSpot lets you create/edit custom properties and choose field types like dropdowns. (HubSpot Knowledge Base)
+[Heading 2] 2.2 List/segment naming
+[normal] 2026 - Interest: Yes/Maybe/Unknown
+[normal] 2026 - Interest: No
+[normal] 2026 - Potential Leaders (Interested, No Role Assigned)
+[normal] 2026 - Needs Follow-up (No response yet)
+[normal] Lists (segments) can be active (auto-updating) or static (snapshot). (HubSpot Knowledge Base)
+[normal] Rule of thumb
+[normal] Use Active lists for anything ongoing (“yes/maybe/unknown” should update as responses come in).
+[normal] Use Static lists for one-time snapshots (“everyone invited to X at the time we sent it”).
+[Heading 1] SOP 1 — Create a contact property (dropdown) in HubSpot
+[Heading 2] Purpose
+[normal] Create structured fields so survey answers become filterable (and reusable in lists, emails, etc.).
+[Heading 2] When to use
+[normal] Any time you want a standardized answer set:
+[normal] Yes / No / Maybe
+[normal] 1–2 hrs/week / 3–4 / 4+
+[normal] Which role someone holds
+[Heading 2] Steps
+[normal] In HubSpot, click Settings (gear icon)
+[normal] Go to Data Management → Properties (HubSpot Knowledge Base)
+[normal] Choose the object type (usually Contact)
+[normal] Click Create property
+[normal] Set:
+[normal] Property label: 2026 - Interested in Camp
+[normal] Field type: Dropdown select
+[normal] Options: Yes, Maybe, No
+[normal] Save.
+[Heading 2] Output
+[normal] A property you can add to:
+[normal] forms, contact views, and list/segment filters.
+[Heading 2] Troubleshooting
+[normal] If you can’t see “Create property” or you get errors: check permissions (Super Admin / property access). (HubSpot Knowledge Base)
+[Heading 1] SOP 2 — Build the “2026 Interest / Labor / Leadership” form (HubSpot)
+[Heading 2] Purpose
+[normal] Collect the minimum info you need quickly:
+[normal] Are you coming?
+[normal] How much time can you contribute?
+[normal] Are you willing to lead?
+[Heading 2] Steps (clone-and-edit method)
+[normal] Go to Marketing → Forms (HubSpot Knowledge Base)
+[normal] Find last year’s “Existing Member Interest” form
+[normal] Clone it (so you keep working layouts and settings)
+[normal] Update text to 2026, keep it short.
+[Heading 3] Required fields to include
+[normal] Email (required)
+[normal] 2026 - Interested in Camp (dropdown Yes/Maybe/No)
+[normal] 2026 - Volunteer Time Available (dropdown)
+[normal] 2026 - Leadership Interest (dropdown)
+[Heading 3] Recommended dropdown options
+[normal] 2026 - Volunteer Time Available
+[normal] 1–2 hours/week
+[normal] 3–4 hours/week
+[normal] 4+ hours/week
+[normal] I have time mainly close to the burn
+[normal] No time / can’t help this year
+[normal] 2026 - Leadership Interest
+[normal] Yes — I’m interested in a leadership role
+[normal] Maybe — talk to me
+[normal] No — not this year
+[normal] Click Update/Publish so changes go live. (HubSpot Knowledge Base)
+[Heading 2] Get the share link (to use in SMS/email/FB)
+[normal] HubSpot supports a share link so the form can be used as a standalone page. (HubSpot Knowledge Base)
+[normal] Typical path:
+[normal] In Marketing → Forms, hover your form → Actions → Share → Share link → Copy. (HubSpot Knowledge Base)
+[Heading 2] Quality check (fast)
+[normal] Submit it yourself once.
+[normal] Open your contact record and confirm those properties updated.
+[Heading 1] SOP 3 — Create a “segment/list” for targeting outreach (HubSpot)
+[Heading 2] Purpose
+[normal] Turn form results into a clean audience for texting/emailing.
+[Heading 2] Steps
+[normal] Go to CRM → Lists (Segments) (HubSpot Knowledge Base)
+[normal] Create a Contact-based list
+[normal] Choose list type:
+[normal] Active for continuously updating audiences (recommended for “Yes/Maybe/Unknown”)
+[normal] Static for a one-time snapshot (HubSpot Knowledge Base)
+[normal] Build filters.
+[Heading 2] Example A: “2026 - Interest: Yes/Maybe/Unknown”
+[normal] Goal: everyone except “No”.
+[normal] Filters:
+[normal] 2026 - Interested in Camp is any of:
+[normal] Yes
+[normal] Maybe
+[normal] (and/or) is unknown/empty (depending on how your portal handles blank)
+[normal] Save as an Active list.
+[Heading 2] Example B: “Potential leaders (willing + no role assigned)”
+[normal] This matches your exact use case.
+[normal] Prereq property you created after the meeting:
+[normal] 2026 - Leadership Role (Assigned) (dropdown of roles, or single-line text)
+[normal] Filters:
+[normal] 2026 - Leadership Interest is any of Yes, Maybe
+[normal] AND 2026 - Leadership Role (Assigned) is unknown/empty
+[normal] Save as: 2026 - Potential Leaders (No Role Assigned)
+[Heading 1] SOP 4 — Send a bulk SMS to a HubSpot list (Sakari Campaign)
+[Heading 2] Purpose
+[normal] Text the right people with the form link.
+[Heading 2] Steps
+[normal] In Sakari, go to Campaigns → Create Campaign (Sakari Support Center)
+[normal] You’ll move through the standard stages:
+[normal] Campaign Details
+[normal] Contacts
+[normal] Conditions
+[normal] Messaging
+[normal] Schedule (Sakari Support Center)
+[normal] In Contacts, select the synced HubSpot list/segment (your “2026 - Interest: Yes/Maybe/Unknown” list)
+[normal] Write message (keep it short; link to the form)
+[Heading 3] Recommended SMS template (first outreach of the year)
+[normal] NC 2026 check-in: are you coming + can you help? Please fill this out: [FORM LINK]
+Reply STOP to opt out.
+[normal] (“STOP” is the standard opt-out keyword; Sakari supports carrier opt-out keywords.) (Sakari Support Center)
+[Heading 2] Preview cost before sending
+[normal] In Sakari scheduled campaigns, you can use the three-dot menu → Preview to see estimated cost. (Sakari Support Center)
+Sakari also explains that segment count drives cost. (Sakari Support Center)
+[Heading 2] Scheduling
+[normal] Schedule at a reasonable hour; avoid sending multiple repeats to non-responders too quickly.
+[Heading 1] SOP 5 — Text a single member (1:1) from HubSpot (Sakari card)
+[Heading 2] Purpose
+[normal] Follow up personally with:
+[normal] potential leaders
+[normal] people with unclear responses
+[normal] someone you need to recruit for a specific open role
+[Heading 2] Steps
+[normal] In HubSpot, open the person’s Contact record
+[normal] Find the Sakari SMS module/card
+[normal] Click Send SMS and write your message (Sakari Support Center)
+[normal] Send and monitor replies (stays tracked on the record)
+[normal] If you can’t find the SMS card, confirm the integration is set up and the card is enabled. (Sakari Support Center)
+[Heading 3] Suggested 1:1 template (role recruitment)
+[normal] Hey — you marked that you’re open to leadership. We still need a Facilities Lead (bathroom/shower/containment coordination).
+Are you open to doing it (or co-leading)? I can send a simple checklist.
+[Heading 1] SOP 6 — Send “Nipple News” email (HubSpot Marketing Email)
+[Heading 2] Purpose
+[normal] Send the longer-form comms (with photos, context, deadlines), without blasting walls of text over SMS.
+[normal] HubSpot supports creating and sending marketing emails, previews, and test sends. (HubSpot Knowledge Base)
+[Heading 2] Steps (clone-and-edit method)
+[normal] Go to Marketing → Email
+[normal] Find last year’s closest matching email (e.g., “Are you coming?”)
+[normal] Clone
+[normal] Edit:
+[normal] Subject line (clear + action-oriented)
+[normal] Body (short sections, bold deadlines)
+[normal] Insert the form link
+[normal] Preview as a real contact and Send test email to yourself (HubSpot Knowledge Base)
+[normal] Choose your Send to list (audience):
+[normal] 2026 - Interest: Yes/Maybe/Unknown
+[Heading 2] Web version setup (so you can share on FB / in a text)
+[normal] Enable a web version (“view in browser”) for the email and set URL/redirect settings. (HubSpot Knowledge Base)
+[normal] Why: You can then text a short message like:
+[normal] Nipple News #1 is out — full details here: [WEB VERSION LINK]
+[Heading 1] SOP 7 — Get the “web version” link to share (HubSpot)
+[Heading 2] Purpose
+[normal] Use one canonical link for:
+[normal] Facebook group post
+[normal] SMS “read more”
+[normal] Campmates who don’t read email well
+[Heading 2] Steps
+[normal] Open the email in HubSpot
+[normal] Go to email details / web version area (varies by editor)
+[normal] Copy the web version URL
+[normal] HubSpot documents how web versions work and how redirect behavior can be configured (e.g., if unpublished, redirect to homepage/external URL). (HubSpot Knowledge Base)
+[Heading 1] SOP 8 — Website upkeep (HubSpot CMS pages)
+[Heading 2] Purpose
+[normal] Keep “Sign up”, “Donate”, and other pages accurate for the current year.
+[Heading 2] Steps
+[normal] Go to Content → Website Pages
+[normal] Click the page you need
+[normal] Edit content (text, dates, buttons)
+[normal] Publish (or schedule publish) (HubSpot Knowledge Base)
+[Heading 3] Example: disabling donations temporarily (your exact situation)
+[normal] If you don’t want a donation button to function right now:
+[normal] Remove the button URL, or
+[normal] Change the button URL to the homepage (so it’s not a dead-end)
+[normal] (That’s exactly what you did in the meeting: keep the button but redirect it somewhere safe.)
+[Heading 1] SOP 9 — Payment links (Commerce) “know where it is” guide
+[Heading 2] Purpose
+[normal] You may not own dues/payment policy (Treasurer does), but you need to know where links live so you can coordinate changes and avoid broken pages.
+[normal] HubSpot payment links are managed under Commerce → Payment Links, where you can create and share links. (HubSpot Knowledge Base)
+[Heading 2] When Comms touches this
+[normal] You’re updating a website page that contains a payment button/link
+[normal] Treasurer asks you to help update wording or swap links on a page/email
+[Heading 2] Guardrails
+[normal] Don’t change pricing/payment-plan logic unless Treasurer explicitly wants you to
+[normal] Do change broken links / mislabeled buttons on web pages (with Treasurer notified)
+[Heading 1] SOP 10 — Meeting recap SOP (board-ready)
+[Heading 2] Purpose
+[normal] Your recaps are how the board stays aligned and how work actually happens between meetings.
+[Heading 2] Deliverable (send within 24 hours)
+[normal] Post in Slack (leadership channel) + optionally email the board.
+[Heading 3] Template (copy/paste)
+[normal] Meeting: Board Meeting — YYYY-MM-DD
+Attendees: (list)
+Key decisions
+[normal] Decision 1 (who decided, any constraints)
+[normal] Decision 2
+[normal] Action items (owner + due date)
+[normal] Owner — action — due date — dependencies
+[normal] Owner — action — due date — dependencies
+[normal] Risks / watch-outs
+[normal] Risk — mitigation owner — next check-in date
+[normal] Next meeting
+[normal] Date/time + what must be ready by then
+[Heading 1] SOP 11 — Slack: structure + operating rules
+[Heading 2] Recommended channel structure
+[normal] #announcements (read-only posting, if you want)
+[normal] #leadership-board (board-level discussion)
+[normal] #leadership-general (all leadership roles, if you choose to include)
+[normal] Committee channels: #committee-food, #committee-power, #committee-lnt, etc.
+[normal] #help-wanted (open asks + volunteer recruitment)
+[Heading 2] Posting rules that reduce chaos
+[normal] Announcements: one post → replies in thread
+[normal] Decisions: summarize in one “Decision:” message + pin it
+[normal] Use pinned messages for:
+[normal] form link
+[normal] dues link (when decided)
+[normal] org chart
+[normal] meeting recap index
+[Heading 1] SOP 12 — Handoff checklist (for the next Comms Officer)
+[Heading 2] Keep these updated year-round
+[normal] List of active properties you created this year (names + purpose)
+[normal] List/segment names you actually used
+[normal] Forms (which one is “the canonical 2026 interest form”)
+[normal] Message templates
+[normal] first interest SMS
+[normal] leadership recruitment SMS
+[normal] Nipple News #1 skeleton
+[normal] Where the web version links live (and how to generate them)
+[normal] Website pages you touch most often (Sign Up, Donate, etc.)
+[normal] Who to ask for permissions (President / admin)
+[Heading 2] Example workflows (cheat sheet)
+[Heading 3] A) “Survey the whole membership”
+[normal] Update the 2026 form (SOP 2) (HubSpot Knowledge Base)
+[normal] Copy share link (HubSpot Knowledge Base)
+[normal] Update/create audience list (SOP 3) (HubSpot Knowledge Base)
+[normal] Send SMS campaign (SOP 4) (Sakari Support Center)
+[normal] Send HubSpot email (SOP 6) (HubSpot Knowledge Base)
+[normal] Post web version to FB (SOP 7) (HubSpot Knowledge Base)
+[Heading 3] B) “Find all potential leaders without roles”
+[normal] Ensure property exists: 2026 - Leadership Role (Assigned) (SOP 1) (HubSpot Knowledge Base)
+[normal] Create list with filters (SOP 3) (HubSpot Knowledge Base)
+[normal] Work the list using 1:1 texts (SOP 5) (Sakari Support Center)
+[Heading 3] C) “Text one person about a role”
+[normal] Open contact → Sakari SMS card → Send (SOP 5) (Sakari Support Center)
