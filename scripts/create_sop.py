@@ -651,6 +651,117 @@ sections_com3 = [
     ]),
 ]
 
+# =========================================================
+# SOP Tr2 — IRS 509(a)(2) Administration
+# =========================================================
+
+sections_tr2 = [
+    (1, "1. Purpose", [
+        "This SOP documents the annual compliance requirements for maintaining Nipple Crime's "
+        "federal tax-exempt status under IRC Section 501(c)(3) with public charity classification "
+        "under Section 509(a)(2). Compliance is owned by the Treasurer with oversight from the President.",
+    ]),
+    (1, "2. IRS Determination Letter — Key Details", [
+        "The original IRS determination letter (dated 05/06/2024) is the foundational legal document "
+        "for the organization's nonprofit status. Key details from that letter:",
+        "",
+        "- Legal Name: Camp NC Inc",
+        "- Address on Record: 527 S Arlington Ave, Reno, NV 89509",
+        "- Employer ID Number (EIN): 99-1556119",
+        "- Public Charity Status: 509(a)(2)",
+        "- Tax-Exempt Under: IRC Section 501(c)(3)",
+        "- Effective Date of Exemption: February 23, 2024",
+        "- Accounting Period Ending: January 31 (fiscal year end)",
+        "- Form 990 / 990-EZ / 990-N Required: Yes (annually)",
+        "- Contribution Deductibility: Yes -- donors may deduct contributions under IRC Section 170",
+        "- Addendum Applies: No",
+        "- IRS Document Locator Number (DLN): 26053516003724",
+        "- IRS Contact: Customer Service, ID 31954, (877) 829-5500",
+        "",
+        "The original letter is filed at: [Shared Drive > Treasurer > IRS > Determination Letter 2024]",
+        "A copy should also be kept with the Secretary/President.",
+    ]),
+    (1, "3. Annual Filing Requirements", [
+        "Fiscal year end: January 31",
+        "Form 990 series due date: June 15 (15th day of the 5th month after fiscal year end)",
+        "Extension available: 6-month automatic extension to December 15 (file Form 8868 before June 15)",
+        "",
+        "Which Form 990 to file (based on gross receipts):",
+        "- Form 990-N (e-Postcard): gross receipts normally $50,000 or less",
+        "- Form 990-EZ: gross receipts $50,001 - $200,000 AND total assets under $500,000",
+        "- Form 990 (full): gross receipts over $200,000 OR total assets $500,000 or more",
+        "",
+        "Treasurer determines which form applies each year based on financials.",
+        "Filing is done at IRS.gov (tax-exempt organizations section) or through a CPA.",
+    ]),
+    (1, "4. Annual Compliance Checklist", [
+        "Complete the following each fiscal year (year end: January 31):",
+        "",
+        "FEBRUARY (immediately after fiscal year end):",
+        "- Close the books for the fiscal year ended January 31",
+        "- Compile income and expense summary by category",
+        "- Reconcile all bank accounts",
+        "- Collect receipts and documentation for all expenses",
+        "",
+        "MARCH - MAY:",
+        "- Determine which Form 990 applies (see Section 3)",
+        "- Prepare or engage CPA to prepare the return",
+        "- Board reviews draft Form 990 before filing",
+        "- President signs the return",
+        "",
+        "BY JUNE 15:",
+        "- File Form 990 / 990-EZ / 990-N with IRS",
+        "- OR file Form 8868 for 6-month extension (if needed)",
+        "- Save filed return and IRS acknowledgment to: [Shared Drive > Treasurer > IRS > 990 > YYYY]",
+        "",
+        "ONGOING:",
+        "- Notify IRS of any change in address or responsible party (Form 8822-B within 60 days)",
+        "- Do not allow status to lapse -- failure to file 3 consecutive years results in automatic revocation",
+        "- Keep determination letter accessible at all times (required to show donor deductibility)",
+    ]),
+    (1, "5. What 509(a)(2) Means for Camp Operations", [
+        "- Nipple Crime is classified as a publicly supported charity (not a private foundation)",
+        "- Donors may deduct contributions on their federal tax returns",
+        "- Camp must maintain broad public support -- dues, ticket sales, and participation fees "
+        "generally qualify as public support under 509(a)(2)",
+        "- Excessive reliance on a single donor or source could jeopardize status -- flag to Treasurer if any "
+        "single donor contributes more than 33% of total annual revenue",
+        "- Investment income is permissible but should remain incidental",
+    ]),
+    (1, "6. Record Keeping", [
+        "Retain all of the following for a minimum of 7 years:",
+        "- IRS determination letter",
+        "- All filed Form 990 / 990-EZ / 990-N returns",
+        "- Form 8868 extension requests (if any)",
+        "- Annual financial statements and bank reconciliations",
+        "- Board meeting minutes approving annual budget and major expenditures",
+        "- Any IRS correspondence",
+        "",
+        "File location: [Shared Drive > Treasurer > IRS > ]",
+    ]),
+    (1, "7. Contacts", [
+        "- IRS Tax-Exempt Organizations: (877) 829-5500 (Customer Service ID: 31954)",
+        "- IRS Website: irs.gov/charities-non-profits",
+        "- Treasurer (filing owner): Isabel Hoy -- izhoy@yahoo.com",
+        "- President (signs returns, oversight): Reece Dassinger -- reece@nipplecrime.org",
+        "- VP / SOP Owner: Chris Reddin -- creddin1@hotmail.com",
+    ]),
+    (1, "8. Revision History", [
+        "- v1.0 | 2026-03-04 | Initial draft | Chris Reddin",
+    ]),
+]
+
+create_sop(
+    output_path="Standard Operating Procedures/Tr2 IRS 509a2 Administration.docx",
+    sop_number="Tr2",
+    sop_title="IRS 509(a)(2) Administration",
+    department="Treasurer",
+    version="1.0",
+    effective_date="2026-03-04",
+    last_updated="2026-03-04",
+    sections=sections_tr2,
+)
+
 create_sop(
     output_path="Standard Operating Procedures/Com3 HubSpot.docx",
     sop_number="Com3",
