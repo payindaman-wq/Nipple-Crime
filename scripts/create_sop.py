@@ -1,28 +1,22 @@
 """
 Nipple Crime SOP Generator
-Creates a formatted DOCX SOP with left-only logo header.
+Creates a formatted DOCX SOP matching the master template (Tr3).
 Usage: python scripts/create_sop.py
 """
 
 from docx import Document
-from docx.shared import Inches, Pt, RGBColor
+from docx.shared import Inches, Pt, RGBColor, Emu
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.enum.table import WD_TABLE_ALIGNMENT, WD_ALIGN_VERTICAL
+from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
+import lxml.etree as etree
 import os
 
-
-def set_cell_border(cell, **kwargs):
-    tc = cell._tc
-    tcPr = tc.get_or_add_tcPr()
-    tcBorders = OxmlElement('w:tcBorders')
-    for edge in ('top', 'left', 'bottom', 'right'):
-        element = OxmlElement(f'w:{edge}')
-        for key, val in kwargs.get(edge, {}).items():
-            element.set(qn(f'w:{key}'), str(val))
-        tcBorders.append(element)
-    tcPr.append(tcBorders)
+NS_WP  = 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing'
+NS_A   = 'http://schemas.openxmlformats.org/drawingml/2006/main'
+NS_PIC = 'http://schemas.openxmlformats.org/drawingml/2006/picture'
+NS_R   = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships'
 
 
 def set_cell_bg(cell, hex_color):
@@ -46,6 +40,58 @@ def add_run(para, text, bold=False, size=None, color=None, italic=False):
     return run
 
 
+def add_floating_image(paragraph, image_path, width_emu, height_emu, pos_h_emu, pos_v_emu):
+    """
+    Add a floating (anchored) image to a paragraph by:
+    1. Adding it inline to register the relationship and get the rId
+    2. Replacing the inline XML with an anchor at the specified position
+    """
+    run = paragraph.add_run()
+    run.add_picture(image_path, width=Emu(width_emu), height=Emu(height_emu))
+
+    w_drawing = run._element.find(qn('w:drawing'))
+    inline = w_drawing.find('{%s}inline' % NS_WP)
+
+    # Extract rId from blip element
+    blip = inline.find('.//{%s}blip' % NS_A)
+    r_id = blip.get('{%s}embed' % NS_R)
+
+    anchor_xml = (
+        '<wp:anchor xmlns:wp="{wp}" xmlns:a="{a}" xmlns:pic="{pic}" xmlns:r="{r}" '
+        'distT="0" distB="0" distL="0" distR="0" simplePos="0" relativeHeight="3" '
+        'behindDoc="0" locked="0" layoutInCell="0" allowOverlap="1">'
+        '<wp:simplePos x="0" y="0"/>'
+        '<wp:positionH relativeFrom="column"><wp:posOffset>{ph}</wp:posOffset></wp:positionH>'
+        '<wp:positionV relativeFrom="paragraph"><wp:posOffset>{pv}</wp:posOffset></wp:positionV>'
+        '<wp:extent cx="{cx}" cy="{cy}"/>'
+        '<wp:effectExtent l="0" t="0" r="0" b="0"/>'
+        '<wp:wrapSquare wrapText="largest"/>'
+        '<wp:docPr id="2" name="BMlogo"/>'
+        '<wp:cNvGraphicFramePr><a:graphicFrameLocks noChangeAspect="1"/></wp:cNvGraphicFramePr>'
+        '<a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">'
+        '<pic:pic><pic:nvPicPr>'
+        '<pic:cNvPr id="2" name="BMlogo"/>'
+        '<pic:cNvPicPr><a:picLocks noChangeAspect="1" noChangeArrowheads="1"/></pic:cNvPicPr>'
+        '</pic:nvPicPr>'
+        '<pic:blipFill><a:blip r:embed="{rid}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill>'
+        '<pic:spPr bwMode="auto">'
+        '<a:xfrm><a:off x="0" y="0"/><a:ext cx="{cx}" cy="{cy}"/></a:xfrm>'
+        '<a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/>'
+        '</pic:spPr>'
+        '</pic:pic></a:graphicData></a:graphic>'
+        '</wp:anchor>'
+    ).format(
+        wp=NS_WP, a=NS_A, pic=NS_PIC, r=NS_R,
+        ph=pos_h_emu, pv=pos_v_emu,
+        cx=width_emu, cy=height_emu,
+        rid=r_id,
+    )
+
+    anchor = etree.fromstring(anchor_xml)
+    w_drawing.remove(inline)
+    w_drawing.append(anchor)
+
+
 def create_sop(
     output_path,
     sop_number,
@@ -54,27 +100,43 @@ def create_sop(
     version,
     effective_date,
     last_updated,
-    sections,           # list of (heading_level, heading_text, body_lines)
+    sections,
     nc_logo_path="Images/NC logo.png",
+    bm_logo_path="Images/BM logo.jpg",
 ):
     doc = Document()
 
-    # --- Page margins ---
     page_section = doc.sections[0]
-    page_section.top_margin = Inches(0.5)
+    page_section.top_margin    = Inches(0.5)
     page_section.bottom_margin = Inches(0.75)
-    page_section.left_margin = Inches(1)
-    page_section.right_margin = Inches(1)
+    page_section.left_margin   = Inches(1)
+    page_section.right_margin  = Inches(1)
 
     # =========================================================
-    # HEADER: left-aligned NC logo only
+    # HEADER: NC logo inline left + BM logo floating right
+    # Dimensions and positions match the Tr3 master template exactly.
+    #   NC logo  — inline:  ~3.16" wide x 0.90" tall
+    #   BM logo  — anchored: ~1.67" wide x 1.19" tall
+    #              H offset from column: ~5.28" (4,833,620 EMU)
+    #              V offset from paragraph: -0.14" (-123,825 EMU)
     # =========================================================
     logo_para = doc.add_paragraph()
     logo_para.alignment = WD_ALIGN_PARAGRAPH.LEFT
+
     if nc_logo_path and os.path.exists(nc_logo_path):
-        logo_para.add_run().add_picture(nc_logo_path, height=Inches(1.0))
+        logo_para.add_run().add_picture(nc_logo_path, height=Inches(0.9))
     else:
         add_run(logo_para, "NIPPLE CRIME", bold=True, size=20)
+
+    if bm_logo_path and os.path.exists(bm_logo_path):
+        add_floating_image(
+            logo_para,
+            bm_logo_path,
+            width_emu=1529080,
+            height_emu=1091565,
+            pos_h_emu=4833620,
+            pos_v_emu=-123825,
+        )
 
     doc.add_paragraph()  # spacer
 
@@ -133,7 +195,7 @@ def create_sop(
     set_cell_bg(merged, "D9D9D9")
     lup = merged.paragraphs[0]
     lup.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    add_run(lup, f"Last Updated: {last_updated}", bold=True, size=9)
+    add_run(lup, "Last Updated: %s" % last_updated, bold=True, size=9)
 
     doc.add_paragraph()
 
@@ -167,127 +229,19 @@ def create_sop(
     fp = footer.paragraphs[0]
     fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
     add_run(fp,
-        f"Nipple Crime Theme Camp  |  {sop_number} {sop_title}  |  Ver {version}  |  Confidential — Internal Use Only",
+        "Nipple Crime Theme Camp  |  %s %s  |  Ver %s  |  Confidential — Internal Use Only"
+        % (sop_number, sop_title, version),
         size=8, color=(128, 128, 128))
 
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     doc.save(output_path)
-    print(f"Saved: {output_path}")
+    print("Saved: %s" % output_path)
 
 
 # =========================================================
 # SOP Tr3 — Statement of Intent (BMorg)
 # NOTE: Tr3 master template was manually finalized. Do not regenerate.
 # =========================================================
-
-sections_tr3 = [
-    (1, "1. Purpose", [
-        "This SOP documents the annual process for completing and submitting Nipple Crime's "
-        "Statement of Intent (SOI) to the Burning Man Organization (BMorg). The SOI is the "
-        "formal application required for theme camp registration and playa placement. "
-        "Submission is managed by the Treasurer in coordination with the President.",
-    ]),
-    (1, "2. Timeline", [
-        "- SOI portal opens: December – January (check burningman.org each year)",
-        "- SOI submission deadline: February – March (verify annually)",
-        "- Steward Sale ticket allocations announced: second week of February",
-        "- Conditional Late Season Directed tickets (new camps) announced: late spring",
-        "- Placement decisions announced: April – May",
-        "- Treasurer sets calendar reminders at each milestone",
-    ]),
-    (1, "3. Submission Steps", [
-        "1. Go to burningman.org > Participate > Theme Camps > Statement of Intent",
-        "2. Log in using the Nipple Crime camp account (credentials held by President and Treasurer)",
-        "3. Select 'Update Returning Camp' (Nipple Crime is a returning placed camp)",
-        "4. Complete all required fields — see Section 4 for 2026 reference answers",
-        "5. Review all entries with President before submitting",
-        "6. Submit form",
-        "7. Save / screenshot the BMorg confirmation email for records (see Section 5)",
-        "8. If updates are needed after submission, email placement@burningman.org with subject line:",
-        "   [Last Sector] Camp Name - SOI Updates   (example: [3:00] Nipple Crime - SOI Updates)",
-    ]),
-    (1, "4. 2026 Submission Reference", [
-        "The following answers were submitted for the 2026 Burn cycle. Update each year as needed.",
-        "",
-        "CAMP CONTACT",
-        "- First Name: Reece",
-        "- Last Name: Dassinger",
-        "- Email: reece@nipplecrime.org",
-        "- Playa Name: Kirkland Cowboy",
-        "- Phone: 775 247 4493",
-        "- Address: 5592 Spandrell Cir, Sparks, NV 89436",
-        "",
-        "BURNING MAN HISTORY",
-        "- Years attended: 2014–2024",
-        "- Projects & Affiliations: Theme Camp, Mutant Vehicle, Art Installation",
-        "- Description: 2014 participated in theme camp; 2015 built bar, designed/coordinated theme camp; "
-        "2016–2023 Nipple Crime camp lead; built art car 2023",
-        "",
-        "CAMP DETAILS",
-        "- Camp category: Theme Camp",
-        "- Returning camp: Yes",
-        "- Camp name: Nipple Crime",
-        "- Last placed year: 2025",
-        "- Will complete PCQ: Yes (existing placed camp)",
-        "",
-        "INTERACTIVITY",
-        "- Interactivity change: Reduced Interactivity",
-        "- Description: Reducing one or two larger events; more open bar and fire poof time to reduce workload",
-        "- Center Camp Activation: No",
-        "",
-        "MUTANT VEHICLES",
-        "- Hosting MVs: Yes",
-        "- MV Details: Great Sax, SirKiss, Green Zebra",
-        "",
-        "POPULATION",
-        "- Number of campmates: 105",
-        "- Population change: About the same",
-        "",
-        "TICKETS",
-        "- Number of Steward Sale tickets requested: 44",
-        "",
-        "ADDITIONAL CONTACTS",
-        "- Additional Contact: Isabel Hoy — izhoy@yahoo.com",
-        "- Sustainability Contact: Chris Reddin — creddin1@hotmail.com",
-    ]),
-    (1, "5. BMorg Confirmation (2026)", [
-        "Upon successful submission BMorg sends the following confirmation:",
-        "",
-        "\"Thank you for submitting The Theme Camp Statement of Intent. We'll be reviewing these "
-        "in the upcoming weeks and will reach out if we have any questions or need clarification. "
-        "Stewards Sale allocations will be announced by the second week of February. Conditional "
-        "Late Season Directed tickets for new theme camps will be announced in the late spring.\"",
-        "",
-        "\"If you are a theme camp in good standing and are taking 2026 off, we will note that "
-        "for future access. Please plan to complete a SOI when you return!\"",
-        "",
-        "\"If you have updates after submitting, please email placement@burningman.org with the "
-        "last sector your camp was placed in, camp name, and 'SOI Updates' in the subject line. "
-        "Example: [3:00] Camp Buttercup - SOI Updates.\"",
-        "",
-        "Save this confirmation email to: [Shared Drive > Treasurer > BMorg > SOI > YYYY]",
-    ]),
-    (1, "6. Record Keeping", [
-        "- Save submitted SOI confirmation email as PDF",
-        "- File location: [Shared Drive > Treasurer > BMorg > SOI > YYYY]",
-        "- Log: submission date, submitted by, any BMorg correspondence, placement result",
-        "- Retain records for minimum 5 years per nonprofit compliance requirements",
-    ]),
-    (1, "7. Contacts", [
-        "- BMorg Placement: placement@burningman.org",
-        "- President / Primary Submitter: Reece Dassinger — reece@nipplecrime.org",
-        "- Treasurer: Isabel Hoy — izhoy@yahoo.com",
-        "- VP / SOP Owner: Chris Reddin — creddin1@hotmail.com",
-    ]),
-    (1, "8. Revision History", [
-        "- v1.0 | 2026-03-03 | Initial draft | Chris Reddin",
-    ]),
-]
-
-# create_sop(  # Tr3 is locked as master template — do not regenerate
-#     output_path="Standard Operating Procedures/Tr3 Statement of Intent.docx",
-#     ...
-# )
 
 # =========================================================
 # SOP Tr4 — Mutant Vehicle Statement of Intent (BMorg)
@@ -378,5 +332,4 @@ create_sop(
     effective_date="2026-03-03",
     last_updated="2026-03-03",
     sections=sections_tr4,
-    nc_logo_path="Images/NC logo.png",
 )
