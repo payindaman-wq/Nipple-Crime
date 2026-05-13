@@ -772,3 +772,141 @@ create_sop(
     last_updated="2026-03-03",
     sections=sections_com3,
 )
+
+# =========================================================
+# SOP HR3 — Stewards Sale (BMorg Ticket Allocation)
+# =========================================================
+
+sections_hr3 = [
+    (1, "1. Purpose", [
+        "This SOP documents the annual process for managing Nipple Crime's Burning Man "
+        "Stewards Sale ticket allocation. The Stewards Sale is a directed ticket sale run by "
+        "the Burning Man Organization (BMorg) for placed theme camps and registered mutant "
+        "vehicles. Camps receive a limited block of one-time-use ticket codes which are "
+        "distributed to returning members in good standing. This SOP defines internal "
+        "eligibility, distribution mechanics, and recordkeeping. See Tr4 for the related "
+        "Mutant Vehicle Statement of Intent process.",
+    ]),
+    (1, "2. Timeline", [
+        "- Placement / MVSOI submitted: February (see Tr3, Tr4)",
+        "- Stewards Sale allocations announced by BMorg: second week of February",
+        "- Camp receives ticket codes from BMorg: late February (date set by BMorg each year)",
+        "- Internal eligibility list finalized by HR: within 5 business days of allocation announcement",
+        "- Codes distributed to members: within 3 business days of receipt from BMorg",
+        "- Member redemption window (BMorg portal): typically 7-10 days; exact window set by BMorg",
+        "- Unredeemed code reclamation: 48 hours before redemption window closes",
+        "- Set calendar reminders at each milestone — the window is tight and codes do not roll over",
+    ]),
+    (1, "3. Roles & Responsibilities", [
+        "The Stewards Sale is owned end-to-end by Human Resources. No camp funds move "
+        "through this process — members purchase tickets directly from BMorg using "
+        "personally-paid funds — so the Treasurer has no operational role here.",
+        "",
+        "HUMAN RESOURCES (full ownership):",
+        "- Maintain the Returning Member roster and good-standing status year-round",
+        "- Serve as Nipple Crime's point of contact with BMorg for the Stewards Sale",
+        "- Receive the ticket code block from BMorg and confirm count matches the allocation",
+        "- Produce and finalize the internal eligibility list each Stewards Sale cycle",
+        "- Distribute codes to eligible members (see Section 5)",
+        "- Communicate eligibility, deadlines, and redemption instructions",
+        "- Track redemption status and reclaim/reassign unredeemed codes (see Section 6)",
+        "- File records per Section 7",
+        "",
+        "PRESIDENT (oversight):",
+        "- Final approval on the eligibility list and any exceptions",
+        "- Resolve disputes; sign off on reclamations and reassignments",
+        "",
+        "MEMBERS (individual responsibility):",
+        "- Pay BMorg directly for their ticket using the assigned code",
+        "- Confirm redemption to HR within 24 hours of purchase",
+        "- Carry full personal responsibility for their own ticket funds; the camp does "
+        "not collect, hold, or refund ticket payments",
+    ]),
+    (1, "4. Member Eligibility — Returning Members in Good Standing", [
+        "Stewards Sale codes are distributed only to Returning Members in Good Standing. A "
+        "member meets this standard if ALL of the following are true at the time the "
+        "eligibility list is finalized:",
+        "",
+        "- Camped with Nipple Crime in at least one of the two prior Burns",
+        "- Dues for the current Burn year are paid (or on a Treasurer-approved payment plan)",
+        "- Met or committed to the camp's minimum volunteer hours for the current year",
+        "- No outstanding incident, code-of-conduct, or LNT issues from prior Burns",
+        "- Confirmed 'Yes' on the current year's interest form (see Com3)",
+        "",
+        "PRIORITY ORDER (when codes are fewer than eligible members):",
+        "1. Active Board members and Leadership role holders",
+        "2. Confirmed critical-crew leads (Build, Kitchen, Power, LNT, Medical, Safety)",
+        "3. Returning members with 2+ prior Burns and dues paid in full",
+        "4. Returning members with 1 prior Burn and dues paid in full",
+        "5. All other Returning Members in Good Standing",
+        "",
+        "Exceptions to eligibility (e.g., first-year leadership, hardship cases) require "
+        "President approval and must be logged in the eligibility record.",
+    ]),
+    (1, "5. Code Distribution Process", [
+        "Members purchase tickets directly from BMorg using one-time-use codes issued to "
+        "the camp. Nipple Crime does NOT collect ticket payments or purchase tickets on behalf "
+        "of members.",
+        "",
+        "1. HR receives the code block from BMorg via email or BMorg portal",
+        "2. HR confirms the code count matches the allocation",
+        "3. HR confirms the finalized eligibility list with the President",
+        "4. HR assigns one code per eligible member, in priority order, until codes are exhausted",
+        "5. HR emails each member individually with:",
+        "   - Their assigned code (do NOT post codes in Slack or any shared channel)",
+        "   - The redemption deadline (date and time, with timezone)",
+        "   - A direct link to the BMorg redemption portal",
+        "   - A reminder that codes are one-time use and tied to the member's BMorg account",
+        "   - Instructions to reply confirming redemption within 24 hours of purchase",
+        "6. HR logs each code-to-member assignment in the Stewards Sale tracker",
+        "7. Members redeem in the BMorg portal during the redemption window",
+        "",
+        "SECURITY: Codes have monetary value. Treat them like cash.",
+        "- Never post codes in any Slack channel, public document, or group email",
+        "- Send codes only via direct 1:1 email to the assigned member",
+        "- If a code is leaked or compromised, HR notifies BMorg and the President immediately",
+    ]),
+    (1, "6. Unredeemed Code Reclamation", [
+        "Unused codes are forfeited at the end of the BMorg redemption window. To avoid waste:",
+        "",
+        "- 72 hours before close: HR sends a reminder to any member who has not confirmed redemption",
+        "- 48 hours before close: HR reclaims any code where the member has not confirmed or responded",
+        "- Reclaimed codes are reassigned to the next eligible member on the priority list (Section 4)",
+        "- Reassignments follow the same 1:1 email process from Section 5",
+        "- All reclaim/reassign actions require President sign-off and are logged in the tracker",
+    ]),
+    (1, "7. Record Keeping", [
+        "Maintain the following each Stewards Sale cycle. Retain records for a minimum of 5 years.",
+        "",
+        "- Eligibility list (final), with priority tier and exceptions noted",
+        "- Code-to-member assignment log (member name, email, code last 4, assignment date, redemption status)",
+        "- Member redemption confirmations (forwarded emails or screenshots)",
+        "- BMorg correspondence (allocation announcement, code block delivery, post-sale report)",
+        "- Reclamation/reassignment log with President approvals",
+        "",
+        "File location: [Shared Drive > HR > Stewards Sale > YYYY]",
+        "Do NOT retain the full ticket codes themselves after the redemption window closes — store only last 4 digits for reconciliation.",
+        "Note: No financial records are produced by this process. Member ticket payments are personal "
+        "transactions with BMorg and are not part of camp bookkeeping.",
+    ]),
+    (1, "8. Contacts", [
+        "- HR Officer (process owner, BMorg POC, code distribution): [TBD] — [email]",
+        "- President (approvals + exceptions): Reece Dassinger — reece@nipplecrime.org",
+        "- VP / SOP Owner: Chris Reddin — creddin1@hotmail.com",
+        "- BMorg Stewards Sale: tickets.burningman.org / tickets@burningman.org",
+    ]),
+    (1, "9. Revision History", [
+        "- v1.0 | 2026-05-13 | Initial draft | Chris Reddin",
+    ]),
+]
+
+create_sop(
+    output_path="Standard Operating Procedures/HR3 Stewards Sale.docx",
+    sop_number="HR3",
+    sop_title="Stewards Sale (BMorg Ticket Allocation)",
+    department="Human Resources",
+    version="1.0",
+    effective_date="2026-05-13",
+    last_updated="2026-05-13",
+    sections=sections_hr3,
+)
